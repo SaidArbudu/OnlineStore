@@ -1,0 +1,60 @@
+{% extends 'layouls/index.html' %}
+
+{% block content %}
+    <style type="text/css">
+        .post_block{
+            width: 80%;
+            margin-left: 10%;
+            margin-top: 50px;
+    }
+        .post_block > img {
+            width: 100%;
+        }
+        .dates {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .comments {
+            margin-top: 30px;
+        }
+        .comment_block {
+            background: #242b2e;
+            margin-bottom: 20px;
+            color: #ffffff;
+            padding: 10px;
+        }
+    </style>
+
+
+    <div class="post_block">
+        {% if product.image  %}
+            <img src="/media/{{ product.image }}" alt="">
+        {% else %}
+           <img src="https://i1.wp.com/gelatologia.com/wp-content/uploads/2020/07/placeholder.png?ssl=1" alt="">
+        {% endif %}
+        <div class="info">
+            <h1>{{product.title}}</h1>>
+            <h4>{{ product.description }}</h4>
+            <h5>Rate: {{ product.rate }}</h5>>
+            <div class="dates">
+                <h5>Created Date {{ product.created_date }}</h5>>
+                <h5>Modified Date {{ product.modified_date }}</h5>>
+            </div>
+        </div>>
+        <div class="comments_create">
+            <form action="/products/{{ product.id }}/" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="comment">
+            </form>
+        </div>
+        <div class="comments">
+            {% for comment in comments %}
+                <div class="comment_block">
+                    <h5>{{ comment.text }}</h5>
+                </div>
+            {% endfor %}
+        </div>
+    </div>>
+{% endblock %}
